@@ -28,6 +28,10 @@ The site deploys automatically on push to `main` via `.github/workflows/deploy.y
 - **next-themes** — dark/light mode via `ThemeProvider`
 - **@hugeicons/react** — icon set
 
+## Tooling note
+
+`pnpm-workspace.yaml` is retained to configure `allowBuilds` for native modules (`sharp`, `unrs-resolver`, `msw`). It is not a monorepo workspace config.
+
 ## Customising content
 
 All page content lives in `app/page.tsx`. Edit the section components (`Nav`, `Hero`, `Work`, `Pricing`, `Contact`, `Footer`) directly.
