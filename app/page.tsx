@@ -236,10 +236,10 @@ function Contact() {
         The best work begins with a conversation.
       </p>
       <a
-        href="mailto:paulossjunior@gmail.com"
+        href="mailto:hello@example.com"
         className="font-heading text-2xl sm:text-3xl font-light underline underline-offset-8 decoration-1 hover:text-muted-foreground transition-colors"
       >
-        paulossjunior@gmail.com
+        hello@example.com
       </a>
     </section>
   )

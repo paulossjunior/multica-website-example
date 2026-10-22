@@ -5,7 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import "./globals.css"
 
 // Edit this constant to update the name everywhere (metadata, nav, footer)
-export const PHOTOGRAPHER_NAME = "Paulo's Photography"
+export const PHOTOGRAPHER_NAME = "Alex Rivera Photography"
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
