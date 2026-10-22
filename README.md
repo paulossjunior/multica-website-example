@@ -1,24 +1,27 @@
 # multica-website-example
 
-Personal portfolio site built with Next.js 16, Tailwind CSS v4, and deployed to GitHub Pages as a static export.
+A personal photography portfolio site built with Next.js 16 (App Router), Tailwind CSS v4, and shadcn. Deployed to GitHub Pages via a static export.
 
-## Getting started
+## Development
 
 ```bash
 pnpm install
-pnpm dev       # http://localhost:3000/multica-website-example
+pnpm dev      # http://localhost:3000
+pnpm build    # static export → ./out
+pnpm lint
 ```
 
-## Build & deploy
+## Deploy
 
-```bash
-pnpm build     # outputs to out/ (static export)
-pnpm lint      # eslint
-pnpm format    # prettier --write
+The GitHub Actions workflow in `.github/workflows/deploy.yml` builds and publishes to GitHub Pages on every push to `main`.
+
+Set the `NEXT_PUBLIC_BASE_PATH` repository variable in GitHub if your Pages URL uses a path prefix other than `/multica-website-example` (e.g. a custom domain at `/`):
+
+```
+NEXT_PUBLIC_BASE_PATH=
 ```
 
-The site deploys automatically on push to `main` via `.github/workflows/deploy.yml` (GitHub Pages).
-`basePath` is set to `/multica-website-example` in `next.config.ts` to match the Pages subdirectory.
+The default is `/multica-website-example`, which matches the GitHub repo name.
 
 ## Stack
 
@@ -26,7 +29,6 @@ The site deploys automatically on push to `main` via `.github/workflows/deploy.y
 - **React 19** — Server Components by default
 - **Tailwind CSS v4** — utility-first styling
 - **next-themes** — dark/light mode via `ThemeProvider`
-- **@hugeicons/react** — icon set
 
 ## Tooling note
 
@@ -34,5 +36,36 @@ The site deploys automatically on push to `main` via `.github/workflows/deploy.y
 
 ## Customising content
 
-All page content lives in `app/page.tsx`. Edit the section components (`Nav`, `Hero`, `Work`, `Pricing`, `Contact`, `Footer`) directly.
-Fonts and global styles are in `app/globals.css` and `app/layout.tsx`.
+Edit `lib/content.ts` to update the gallery and pricing arrays without touching any JSX.
+
+Edit `app/layout.tsx` and change `PHOTOGRAPHER_NAME` to update the name in the nav, footer, and `<title>`.
+
+### Placeholder image guide
+
+Gallery slots are driven by the `gallery` array in `lib/content.ts`. Each entry has a `seed` (used to generate a unique placeholder via `picsum.photos`) and an `alt` string.
+
+To replace a placeholder with a real photo:
+
+1. Add your image to `public/gallery/`.
+2. In `lib/content.ts`, add a `src` field to the matching entry:
+
+   ```ts
+   { src: "/gallery/lisbon.jpg", alt: "Trams at dawn, Lisbon" }
+   ```
+
+3. Update the `<Image>` in the `Work` component to use `src` instead of the picsum URL.
+4. Update `alt` with a specific, descriptive string — generic alt text hurts accessibility.
+
+Intended subject for each slot:
+
+| Slot | Subject |
+|------|---------|
+| p1 | hero / wide establishing shot |
+| p2 | tight portrait, natural window light |
+| p3 | environmental portrait (person in their space) |
+| p4 | texture or abstract detail |
+| p5 | candid or street moment |
+| p6 | architectural form or geometric composition |
+| p7 | golden-hour or dusk scene |
+| p8 | interior with deliberate light |
+| p9 | close portrait or still life |
