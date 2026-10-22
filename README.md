@@ -1,21 +1,38 @@
-# Next.js template
+# multica-website-example
 
-This is a Next.js template with shadcn/ui.
+Personal portfolio site built with Next.js 16, Tailwind CSS v4, and deployed to GitHub Pages as a static export.
 
-## Adding components
-
-To add components to your app, run the following command:
+## Getting started
 
 ```bash
-npx shadcn@latest add button
+pnpm install
+pnpm dev       # http://localhost:3000/multica-website-example
 ```
 
-This will place the ui components in the `components` directory.
+## Build & deploy
 
-## Using components
-
-To use the components in your app, import them as follows:
-
-```tsx
-import { Button } from "@/components/ui/button";
+```bash
+pnpm build     # outputs to out/ (static export)
+pnpm lint      # eslint
+pnpm format    # prettier --write
 ```
+
+The site deploys automatically on push to `main` via `.github/workflows/deploy.yml` (GitHub Pages).
+`basePath` is set to `/multica-website-example` in `next.config.ts` to match the Pages subdirectory.
+
+## Stack
+
+- **Next.js 16** — App Router, static export (`output: "export"`)
+- **React 19** — Server Components by default
+- **Tailwind CSS v4** — utility-first styling
+- **next-themes** — dark/light mode via `ThemeProvider`
+- **@hugeicons/react** — icon set
+
+## Tooling note
+
+`pnpm-workspace.yaml` is retained to configure `allowBuilds` for native modules (`sharp`, `unrs-resolver`, `msw`). It is not a monorepo workspace config.
+
+## Customising content
+
+All page content lives in `app/page.tsx`. Edit the section components (`Nav`, `Hero`, `Work`, `Pricing`, `Contact`, `Footer`) directly.
+Fonts and global styles are in `app/globals.css` and `app/layout.tsx`.
