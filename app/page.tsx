@@ -91,24 +91,33 @@ export default function Page() {
 
 function Nav() {
   return (
-    <header className="sticky top-0 z-50 bg-background/90 backdrop-blur-sm border-b border-border">
-      <nav className="mx-auto max-w-6xl px-6 h-14 flex items-center justify-between">
-        <Link href="/" className="font-heading italic text-lg tracking-wide leading-none">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-sm">
+      <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
+        <Link
+          href="/"
+          className="font-heading text-lg leading-none tracking-wide italic"
+        >
           {PHOTOGRAPHER_NAME}
         </Link>
-        <ul className="flex gap-8 text-xs tracking-widest uppercase text-muted-foreground">
+        <ul className="flex gap-8 text-xs tracking-widest text-muted-foreground uppercase">
           <li>
-            <a href="#work" className="hover:text-foreground transition-colors">
+            <a href="#work" className="transition-colors hover:text-foreground">
               Work
             </a>
           </li>
           <li>
-            <a href="#pricing" className="hover:text-foreground transition-colors">
+            <a
+              href="#pricing"
+              className="transition-colors hover:text-foreground"
+            >
               Pricing
             </a>
           </li>
           <li>
-            <a href="#contact" className="hover:text-foreground transition-colors">
+            <a
+              href="#contact"
+              className="transition-colors hover:text-foreground"
+            >
               Contact
             </a>
           </li>
@@ -120,21 +129,21 @@ function Nav() {
 
 function Hero() {
   return (
-    <section className="min-h-[calc(100svh-3.5rem)] flex flex-col justify-center px-6 py-24 max-w-6xl mx-auto">
-      <p className="text-xs tracking-widest uppercase text-muted-foreground mb-10">
+    <section className="mx-auto flex min-h-[calc(100svh-3.5rem)] max-w-6xl flex-col justify-center px-6 py-24">
+      <p className="mb-10 text-xs tracking-widest text-muted-foreground uppercase">
         Photography
       </p>
-      <h1 className="font-heading font-light text-5xl sm:text-7xl lg:text-[5.5rem] leading-[1.05] tracking-tight max-w-4xl">
+      <h1 className="max-w-4xl font-heading text-5xl leading-[1.05] font-light tracking-tight sm:text-7xl lg:text-[5.5rem]">
         I photograph the space between stillness and motion.
       </h1>
-      <p className="mt-10 max-w-lg text-base text-muted-foreground leading-relaxed font-light">
-        Based in Vix. I work across portrait, documentary, and landscape — wherever
-        light and patience find each other. Every image is built around a single, deliberate
-        frame.
+      <p className="mt-10 max-w-lg text-base leading-relaxed font-light text-muted-foreground">
+        Based in Vix. I work across portrait, documentary, and landscape —
+        wherever light and patience find each other. Every image is built around
+        a single, deliberate frame.
       </p>
       <a
         href="#work"
-        className="mt-14 inline-flex items-center gap-2 text-xs tracking-widest uppercase border-b border-foreground pb-px w-fit hover:text-muted-foreground hover:border-muted-foreground transition-colors"
+        className="mt-14 inline-flex w-fit items-center gap-2 border-b border-foreground pb-px text-xs tracking-widest uppercase transition-colors hover:border-muted-foreground hover:text-muted-foreground"
       >
         View selected work
       </a>
@@ -144,15 +153,20 @@ function Hero() {
 
 function Work() {
   return (
-    <section id="work" className="px-6 py-24 max-w-6xl mx-auto">
+    <section id="work" className="mx-auto max-w-6xl px-6 py-24">
       <header className="mb-12">
-        <p className="text-xs tracking-widest uppercase text-muted-foreground mb-3">Portfolio</p>
-        <h2 className="font-heading font-light text-4xl">Selected Work</h2>
+        <p className="mb-3 text-xs tracking-widest text-muted-foreground uppercase">
+          Portfolio
+        </p>
+        <h2 className="font-heading text-4xl font-light">Selected Work</h2>
       </header>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5">
+      <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2 lg:grid-cols-3">
         {gallery.map(({ seed, alt }) => (
-          <div key={seed} className="relative aspect-[3/4] overflow-hidden bg-muted">
+          <div
+            key={seed}
+            className="relative aspect-[3/4] overflow-hidden bg-muted"
+          >
             <Image
               src={`https://picsum.photos/seed/${seed}/800/1067`}
               alt={alt}
@@ -164,11 +178,11 @@ function Work() {
         ))}
       </div>
 
-      <p className="mt-6 text-xs text-muted-foreground leading-relaxed">
+      <p className="mt-6 text-xs leading-relaxed text-muted-foreground">
         All images above are placeholders from{" "}
         <span className="font-mono">picsum.photos</span>. See the comment block
-        at the top of <span className="font-mono">app/page.tsx</span> for a guide
-        on which photo to use in each position.
+        at the top of <span className="font-mono">app/page.tsx</span> for a
+        guide on which photo to use in each position.
       </p>
     </section>
   )
@@ -176,33 +190,39 @@ function Work() {
 
 function Pricing() {
   return (
-    <section id="pricing" className="bg-muted/40 border-y border-border">
-      <div className="max-w-6xl mx-auto px-6 py-24">
+    <section id="pricing" className="border-y border-border bg-muted/40">
+      <div className="mx-auto max-w-6xl px-6 py-24">
         <header className="mb-14">
-          <p className="text-xs tracking-widest uppercase text-muted-foreground mb-3">Investment</p>
-          <h2 className="font-heading font-light text-4xl">Rates</h2>
-          <p className="mt-5 text-muted-foreground max-w-md leading-relaxed font-light">
-            Prices below are a starting point. Every project is different — reach out
-            and we can talk through what makes sense for yours.
+          <p className="mb-3 text-xs tracking-widest text-muted-foreground uppercase">
+            Investment
+          </p>
+          <h2 className="font-heading text-4xl font-light">Rates</h2>
+          <p className="mt-5 max-w-md leading-relaxed font-light text-muted-foreground">
+            Prices below are a starting point. Every project is different —
+            reach out and we can talk through what makes sense for yours.
           </p>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-border border border-border">
+        <div className="grid grid-cols-1 divide-y divide-border border border-border md:grid-cols-3 md:divide-x md:divide-y-0">
           {pricing.map(({ name, price, note, items }) => (
-            <div key={name} className="bg-background p-8 flex flex-col gap-8">
+            <div key={name} className="flex flex-col gap-8 bg-background p-8">
               <div>
-                <h3 className="font-heading font-light text-2xl">{name}</h3>
-                <p className="text-xs text-muted-foreground mt-1 tracking-wide">{note}</p>
+                <h3 className="font-heading text-2xl font-light">{name}</h3>
+                <p className="mt-1 text-xs tracking-wide text-muted-foreground">
+                  {note}
+                </p>
               </div>
 
               <div>
-                <span className="font-heading text-4xl font-light">{price}</span>
+                <span className="font-heading text-4xl font-light">
+                  {price}
+                </span>
               </div>
 
-              <ul className="space-y-3 text-sm text-muted-foreground font-light flex-1">
+              <ul className="flex-1 space-y-3 text-sm font-light text-muted-foreground">
                 {items.map((item) => (
                   <li key={item} className="flex items-start gap-3">
-                    <span className="mt-[0.45rem] h-px w-3 bg-muted-foreground flex-shrink-0" />
+                    <span className="mt-[0.45rem] h-px w-3 flex-shrink-0 bg-muted-foreground" />
                     {item}
                   </li>
                 ))}
@@ -210,7 +230,7 @@ function Pricing() {
 
               <a
                 href="#contact"
-                className="text-xs tracking-widest uppercase border-b border-current pb-px w-fit hover:text-muted-foreground transition-colors"
+                className="w-fit border-b border-current pb-px text-xs tracking-widest uppercase transition-colors hover:text-muted-foreground"
               >
                 Get in touch
               </a>
@@ -224,18 +244,20 @@ function Pricing() {
 
 function Contact() {
   return (
-    <section id="contact" className="px-6 py-32 max-w-4xl mx-auto text-center">
-      <p className="text-xs tracking-widest uppercase text-muted-foreground mb-8">Contact</p>
-      <h2 className="font-heading font-light text-4xl sm:text-5xl leading-tight mb-8">
+    <section id="contact" className="mx-auto max-w-4xl px-6 py-32 text-center">
+      <p className="mb-8 text-xs tracking-widest text-muted-foreground uppercase">
+        Contact
+      </p>
+      <h2 className="mb-8 font-heading text-4xl leading-tight font-light sm:text-5xl">
         Let&apos;s talk about your project.
       </h2>
-      <p className="text-muted-foreground max-w-md mx-auto mb-12 leading-relaxed font-light">
-        Whether you have a clear brief or only an idea, I&apos;m glad to hear from you.
-        The best work begins with a conversation.
+      <p className="mx-auto mb-12 max-w-md leading-relaxed font-light text-muted-foreground">
+        Whether you have a clear brief or only an idea, I&apos;m glad to hear
+        from you. The best work begins with a conversation.
       </p>
       <a
         href="mailto:hello@example.com"
-        className="font-heading text-2xl sm:text-3xl font-light underline underline-offset-8 decoration-1 hover:text-muted-foreground transition-colors"
+        className="font-heading text-2xl font-light underline decoration-1 underline-offset-8 transition-colors hover:text-muted-foreground sm:text-3xl"
       >
         hello@example.com
       </a>
@@ -245,8 +267,8 @@ function Contact() {
 
 function Footer() {
   return (
-    <footer className="px-6 py-8 border-t border-border">
-      <div className="max-w-6xl mx-auto flex items-center justify-between text-xs text-muted-foreground tracking-wide">
+    <footer className="border-t border-border px-6 py-8">
+      <div className="mx-auto flex max-w-6xl items-center justify-between text-xs tracking-wide text-muted-foreground">
         <span className="font-heading italic">{PHOTOGRAPHER_NAME}</span>
         <span>© {new Date().getFullYear()}</span>
       </div>
