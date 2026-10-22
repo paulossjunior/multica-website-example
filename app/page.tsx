@@ -1,20 +1,27 @@
 import Image from "next/image"
 
 /*
- * PLACEHOLDER IMAGE GUIDE — replace each picsum seed with your own photo:
+ * PLACEHOLDER IMAGE GUIDE
  *
- *  seed "p1"  →  hero / establishing landscape or wide establishing shot
- *  seed "p2"  →  tight portrait, natural window light
- *  seed "p3"  →  environmental portrait (person in their space)
- *  seed "p4"  →  texture or abstract detail
- *  seed "p5"  →  candid or street moment
- *  seed "p6"  →  architectural form or geometric composition
- *  seed "p7"  →  golden-hour or dusk scene
- *  seed "p8"  →  interior with deliberate light
- *  seed "p9"  →  close portrait or still life
+ * To replace a photo: edit the `gallery` array below.
+ * Change `seed` to any string for a different picsum placeholder, OR
+ * add a `src` field and update the <Image> to use it directly:
  *
- * Swap src to a local file (e.g. "/gallery/your-photo.jpg") or a
- * production image URL once you have your own images ready.
+ *   { src: "/gallery/lisbon.jpg", alt: "Trams at dawn, Lisbon" }
+ *
+ * Intended subjects per slot:
+ *   p1 — hero / wide establishing shot
+ *   p2 — tight portrait, natural window light
+ *   p3 — environmental portrait (person in their space)
+ *   p4 — texture or abstract detail
+ *   p5 — candid or street moment
+ *   p6 — architectural form or geometric composition
+ *   p7 — golden-hour or dusk scene
+ *   p8 — interior with deliberate light
+ *   p9 — close portrait or still life
+ *
+ * TODO: update each `alt` string with a specific description once real
+ * images replace the placeholders — generic alt text hurts accessibility.
  */
 
 const gallery = [
@@ -84,8 +91,7 @@ function Nav() {
   return (
     <header className="sticky top-0 z-50 bg-background/90 backdrop-blur-sm border-b border-border">
       <nav className="mx-auto max-w-6xl px-6 h-14 flex items-center justify-between">
-        {/* Replace "Paulo&apos;s Photography" with your own name throughout this file */}
-        <a href="/" className="font-heading italic text-lg tracking-wide leading-none">
+        <a href="#" className="font-heading italic text-lg tracking-wide leading-none">
           Paulo&apos;s Photography
         </a>
         <ul className="flex gap-8 text-xs tracking-widest uppercase text-muted-foreground">
@@ -182,7 +188,7 @@ function Pricing() {
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-border border border-border">
-          {pricing.map(({ name, price, note, items }, i) => (
+          {pricing.map(({ name, price, note, items }) => (
             <div key={name} className="bg-background p-8 flex flex-col gap-8">
               <div>
                 <h3 className="font-heading font-light text-2xl">{name}</h3>
