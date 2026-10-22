@@ -235,12 +235,11 @@ function Contact() {
         Whether you have a clear brief or only an idea, I&apos;m glad to hear from you.
         The best work begins with a conversation.
       </p>
-      {/* Replace with your actual email address */}
       <a
-        href="mailto:hello@yourname.com"
+        href="mailto:paulossjunior@gmail.com"
         className="font-heading text-2xl sm:text-3xl font-light underline underline-offset-8 decoration-1 hover:text-muted-foreground transition-colors"
       >
-        hello@yourname.com
+        paulossjunior@gmail.com
       </a>
     </section>
   )
