@@ -84,9 +84,9 @@ function Nav() {
   return (
     <header className="sticky top-0 z-50 bg-background/90 backdrop-blur-sm border-b border-border">
       <nav className="mx-auto max-w-6xl px-6 h-14 flex items-center justify-between">
-        {/* Replace "[Your Name]" with your own name throughout this file */}
+        {/* Replace "Paulo&apos;s Photography" with your own name throughout this file */}
         <a href="/" className="font-heading italic text-lg tracking-wide leading-none">
-          [Your Name]
+          Paulo&apos;s Photography
         </a>
         <ul className="flex gap-8 text-xs tracking-widest uppercase text-muted-foreground">
           <li>
@@ -122,7 +122,7 @@ function Hero() {
       </h1>
       {/* Replace with your own introduction — who you are, where you're based, what drives you */}
       <p className="mt-10 max-w-lg text-base text-muted-foreground leading-relaxed font-light">
-        Based in [City]. I work across portrait, documentary, and landscape — wherever
+        Based in Vix. I work across portrait, documentary, and landscape — wherever
         light and patience find each other. Every image is built around a single, deliberate
         frame.
       </p>
@@ -242,7 +242,7 @@ function Footer() {
   return (
     <footer className="px-6 py-8 border-t border-border">
       <div className="max-w-6xl mx-auto flex items-center justify-between text-xs text-muted-foreground tracking-wide">
-        <span className="font-heading italic">[Your Name]</span>
+        <span className="font-heading italic">Paulo&apos;s Photography</span>
         <span>© {new Date().getFullYear()}</span>
       </div>
     </footer>

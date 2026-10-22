@@ -18,11 +18,11 @@ const outfit = Outfit({
 })
 
 export const metadata: Metadata = {
-  title: "[Your Name] · Photography",
+  title: "Paulo's Photography",
   description: "Portrait, landscape, and documentary photography.",
   openGraph: {
     type: "website",
-    title: "[Your Name] · Photography",
+    title: "Paulo's Photography",
     description: "Portrait, landscape, and documentary photography.",
   },
 }
