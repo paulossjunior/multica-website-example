@@ -1,28 +1,38 @@
-import { Geist, Geist_Mono, Outfit, Oxanium } from "next/font/google"
-
-import "./globals.css"
+import type { Metadata } from "next"
+import { Outfit, Cormorant_Garamond } from "next/font/google"
+import { cn } from "@/lib/utils"
 import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@/lib/utils";
+import "./globals.css"
 
-const oxaniumHeading = Oxanium({subsets:['latin'],variable:'--font-heading'});
-
-const outfit = Outfit({subsets:['latin'],variable:'--font-sans'})
-
-const fontMono = Geist_Mono({
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  variable: "--font-mono",
+  variable: "--font-heading",
+  weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
 })
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  weight: ["300", "400", "500"],
+})
+
+export const metadata: Metadata = {
+  title: "[Your Name] · Photography",
+  description: "Portrait, landscape, and documentary photography.",
+  openGraph: {
+    type: "website",
+    title: "[Your Name] · Photography",
+    description: "Portrait, landscape, and documentary photography.",
+  },
+}
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", outfit.variable, oxaniumHeading.variable)}
+      className={cn("antialiased", cormorant.variable, outfit.variable)}
     >
       <body>
         <ThemeProvider>{children}</ThemeProvider>
