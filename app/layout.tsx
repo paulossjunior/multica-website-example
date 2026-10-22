@@ -4,25 +4,28 @@ import { cn } from "@/lib/utils"
 import { ThemeProvider } from "@/components/theme-provider"
 import "./globals.css"
 
+// Edit this constant to update the name everywhere (metadata, nav, footer)
+export const PHOTOGRAPHER_NAME = "Paulo's Photography"
+
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   variable: "--font-heading",
-  weight: ["300", "400", "500", "600"],
+  weight: ["300", "400"],
   style: ["normal", "italic"],
 })
 
 const outfit = Outfit({
   subsets: ["latin"],
   variable: "--font-sans",
-  weight: ["300", "400", "500"],
+  weight: ["300", "400"],
 })
 
 export const metadata: Metadata = {
-  title: "Paulo's Photography",
+  title: PHOTOGRAPHER_NAME,
   description: "Portrait, landscape, and documentary photography.",
   openGraph: {
     type: "website",
-    title: "Paulo's Photography",
+    title: PHOTOGRAPHER_NAME,
     description: "Portrait, landscape, and documentary photography.",
   },
 }

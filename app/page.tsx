@@ -1,4 +1,6 @@
 import Image from "next/image"
+import Link from "next/link"
+import { PHOTOGRAPHER_NAME } from "./layout"
 
 /*
  * PLACEHOLDER IMAGE GUIDE
@@ -91,9 +93,9 @@ function Nav() {
   return (
     <header className="sticky top-0 z-50 bg-background/90 backdrop-blur-sm border-b border-border">
       <nav className="mx-auto max-w-6xl px-6 h-14 flex items-center justify-between">
-        <a href="#" className="font-heading italic text-lg tracking-wide leading-none">
-          Paulo&apos;s Photography
-        </a>
+        <Link href="/" className="font-heading italic text-lg tracking-wide leading-none">
+          {PHOTOGRAPHER_NAME}
+        </Link>
         <ul className="flex gap-8 text-xs tracking-widest uppercase text-muted-foreground">
           <li>
             <a href="#work" className="hover:text-foreground transition-colors">
@@ -248,7 +250,7 @@ function Footer() {
   return (
     <footer className="px-6 py-8 border-t border-border">
       <div className="max-w-6xl mx-auto flex items-center justify-between text-xs text-muted-foreground tracking-wide">
-        <span className="font-heading italic">Paulo&apos;s Photography</span>
+        <span className="font-heading italic">{PHOTOGRAPHER_NAME}</span>
         <span>© {new Date().getFullYear()}</span>
       </div>
     </footer>
