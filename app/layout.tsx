@@ -2,10 +2,8 @@ import type { Metadata } from "next"
 import { Outfit, Cormorant_Garamond } from "next/font/google"
 import { cn } from "@/lib/utils"
 import { ThemeProvider } from "@/components/theme-provider"
+import { PHOTOGRAPHER_NAME, SITE_DESCRIPTION } from "@/lib/site"
 import "./globals.css"
-
-// Edit this constant to update the name everywhere (metadata, nav, footer)
-export const PHOTOGRAPHER_NAME = "Alex Rivera Photography"
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -22,11 +20,11 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   title: PHOTOGRAPHER_NAME,
-  description: "Portrait, landscape, and documentary photography.",
+  description: SITE_DESCRIPTION,
   openGraph: {
     type: "website",
     title: PHOTOGRAPHER_NAME,
-    description: "Portrait, landscape, and documentary photography.",
+    description: SITE_DESCRIPTION,
   },
 }
 
