@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import { Outfit, Cormorant_Garamond } from "next/font/google"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 import { ThemeProvider } from "@/components/theme-provider"
 import { PHOTOGRAPHER_NAME, SITE_DESCRIPTION } from "@/lib/site"
 import "./globals.css"
