@@ -5,14 +5,14 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-    --background: oklch(1 0 0);
+    --background: oklch(0.99 0.004 60);
     --foreground: oklch(0.147 0.004 49.25);
-    --card: oklch(1 0 0);
+    --card: oklch(0.99 0.004 60);
     --card-foreground: oklch(0.147 0.004 49.25);
-    --popover: oklch(1 0 0);
+    --popover: oklch(0.99 0.004 60);
     --popover-foreground: oklch(0.147 0.004 49.25);
-    --primary: oklch(0.553 0.195 38.402);
-    --primary-foreground: oklch(0.98 0.016 73.684);
+    --primary: oklch(0.147 0.004 49.25);
+    --primary-foreground: oklch(0.99 0.004 60);
     --secondary: oklch(0.967 0.001 286.375);
     --secondary-foreground: oklch(0.21 0.006 285.885);
     --muted: oklch(0.97 0.001 106.424);
