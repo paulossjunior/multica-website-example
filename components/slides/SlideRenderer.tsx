@@ -1,110 +1,112 @@
 "use client"
 
-import type { ParsedSlide } from "@/lib/pptx-parser"
+import type { ParsedSlide, SlideTextBox, TextRun } from "@/lib/pptx-parser"
 
 interface SlideRendererProps {
   slide: ParsedSlide
   total: number
+  fullscreen?: boolean
 }
 
-export function SlideRenderer({ slide, total }: SlideRendererProps) {
-  const hasImage = slide.images.length > 0
-  const mainImage = slide.images[0]
+function TextBoxEl({ box }: { box: SlideTextBox }) {
+  return (
+    <div
+      className="absolute overflow-hidden"
+      style={{
+        left: `${box.x}%`,
+        top: `${box.y}%`,
+        width: `${box.w}%`,
+        minHeight: `${box.h}%`,
+      }}
+    >
+      {box.paragraphs.map((runs, pi) => (
+        <p key={pi} className="leading-tight">
+          {runs.map((run, ri) => (
+            <RunEl key={ri} run={run} />
+          ))}
+        </p>
+      ))}
+    </div>
+  )
+}
 
-  const titleBox = slide.textBoxes[0]
-  const bodyBoxes = slide.textBoxes.slice(1)
+function RunEl({ run }: { run: TextRun }) {
+  return (
+    <span
+      style={{
+        fontWeight: run.bold ? 700 : undefined,
+        fontStyle: run.italic ? "italic" : undefined,
+        fontSize: run.fontSize ? `${run.fontSize}pt` : undefined,
+        color: run.color ?? undefined,
+      }}
+    >
+      {run.text}
+    </span>
+  )
+}
+
+export function SlideRenderer({ slide, total, fullscreen }: SlideRendererProps) {
+  const { background, textBoxes, images } = slide
+
+  const bgStyle: React.CSSProperties = {}
+  if (background.color) bgStyle.backgroundColor = background.color
+  if (background.imageDataUrl) {
+    bgStyle.backgroundImage = `url(${background.imageDataUrl})`
+    bgStyle.backgroundSize = "cover"
+    bgStyle.backgroundPosition = "center"
+  }
 
   return (
-    <div className="relative w-full overflow-hidden rounded-xl bg-white shadow-lg dark:bg-gray-800">
+    <div
+      className={[
+        "relative w-full select-none overflow-hidden rounded-xl bg-white shadow-lg",
+        fullscreen ? "h-full rounded-none" : "",
+      ].join(" ")}
+    >
       {/* 16:9 aspect ratio */}
       <div className="relative" style={{ paddingTop: "56.25%" }}>
-        <div className="absolute inset-0 flex flex-col">
-          {hasImage && (
-            <div className="absolute inset-0">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={mainImage.dataUrl}
-                alt={`Slide ${slide.index + 1} image`}
-                className="h-full w-full object-cover"
-              />
-              <div className="absolute inset-0 bg-black/30" />
-            </div>
+        <div className="absolute inset-0" style={bgStyle}>
+          {/* Background fallback */}
+          {!background.color && !background.imageDataUrl && (
+            <div className="absolute inset-0 bg-white dark:bg-gray-900" />
           )}
 
-          <div
-            className={[
-              "relative flex h-full flex-col justify-between p-8",
-              hasImage ? "text-white" : "text-gray-900 dark:text-gray-100",
-            ].join(" ")}
-          >
-            {/* Title */}
-            {titleBox && (
-              <div>
-                <h2
-                  className={[
-                    "font-heading text-3xl font-light leading-tight",
-                    hasImage ? "drop-shadow" : "",
-                  ].join(" ")}
-                >
-                  {titleBox.texts.join(" ")}
-                </h2>
-              </div>
-            )}
+          {/* Images at exact positions */}
+          {images.map((img, i) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              key={i}
+              src={img.dataUrl}
+              alt=""
+              className="absolute object-contain"
+              style={{
+                left: `${img.x}%`,
+                top: `${img.y}%`,
+                width: `${img.w}%`,
+                height: `${img.h}%`,
+              }}
+            />
+          ))}
 
-            {/* Body */}
-            <div className="flex-1 overflow-hidden py-4">
-              {bodyBoxes.map((box, i) => (
-                <div key={i} className="mb-3">
-                  {box.texts.map((t, j) => (
-                    <p
-                      key={j}
-                      className={[
-                        "text-base leading-relaxed",
-                        hasImage ? "drop-shadow" : "text-gray-700 dark:text-gray-300",
-                      ].join(" ")}
-                    >
-                      {t}
-                    </p>
-                  ))}
-                </div>
-              ))}
+          {/* Text boxes at exact positions */}
+          {textBoxes.map((box, i) => (
+            <TextBoxEl key={i} box={box} />
+          ))}
 
-              {/* Extra images */}
-              {slide.images.slice(1).length > 0 && (
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {slide.images.slice(1).map((img, i) => (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      key={i}
-                      src={img.dataUrl}
-                      alt={`Slide ${slide.index + 1} image ${i + 2}`}
-                      className="max-h-32 rounded object-contain"
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Slide number */}
-            <div
-              className={[
-                "self-end rounded-full px-3 py-1 text-xs font-medium",
-                hasImage
-                  ? "bg-white/20 text-white backdrop-blur-sm"
-                  : "bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400",
-              ].join(" ")}
-            >
-              {slide.index + 1} / {total}
-            </div>
+          {/* Slide counter */}
+          <div className="absolute bottom-2 right-3 rounded bg-black/30 px-2 py-0.5 text-xs text-white backdrop-blur-sm">
+            {slide.index + 1} / {total}
           </div>
         </div>
       </div>
 
       {/* Notes */}
       {slide.notes && (
-        <div className="border-t border-gray-100 px-6 py-3 dark:border-gray-700">
-          <p className="text-xs text-gray-500 dark:text-gray-400">
-            <span className="font-medium">Notes: </span>
+        <div className="border-t border-gray-100 bg-amber-50 px-4 py-2 dark:border-gray-700 dark:bg-amber-950/20">
+          <p className="text-xs leading-relaxed text-gray-600 dark:text-gray-400">
+            <span className="font-semibold text-amber-700 dark:text-amber-400">
+              Notes:{" "}
+            </span>
             {slide.notes}
           </p>
         </div>

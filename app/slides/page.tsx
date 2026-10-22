@@ -3,7 +3,7 @@ import { Nav } from "@/components/sections/Nav"
 import { Footer } from "@/components/sections/Footer"
 
 export const metadata = {
-  title: "Slide Viewer",
+  title: "Visualizador de Slides",
   description: "Upload and view PowerPoint presentations in your browser.",
 }
 
@@ -15,11 +15,12 @@ export default function SlidesPage() {
         <div className="mx-auto max-w-5xl px-4">
           <div className="mb-10 text-center">
             <h1 className="font-heading text-4xl font-light text-gray-900 dark:text-gray-100">
-              Slide Viewer
+              Visualizador de Slides
             </h1>
             <p className="mt-3 text-gray-500 dark:text-gray-400">
-              Upload a PowerPoint file (.pptx) to view it slide by slide — no
-              upload to server, everything stays in your browser.
+              Faça upload de um arquivo PowerPoint (.pptx) para visualizar os
+              slides — tudo processado no browser, nenhum dado sai do seu
+              dispositivo.
             </p>
           </div>
           <SlideViewer />
