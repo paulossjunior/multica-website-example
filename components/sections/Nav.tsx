@@ -24,6 +24,11 @@ export function Nav() {
               Contact
             </a>
           </li>
+          <li>
+            <Link href="/slides" className="hover:text-foreground transition-colors">
+              Slides
+            </Link>
+          </li>
         </ul>
       </nav>
     </header>
