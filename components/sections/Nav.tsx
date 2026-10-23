@@ -10,19 +10,24 @@ export function Nav() {
         </Link>
         <ul className="flex gap-8 text-xs tracking-widest uppercase text-muted-foreground">
           <li>
-            <a href="#work" className="hover:text-foreground transition-colors">
+            <Link href="/#work" className="hover:text-foreground transition-colors">
               Work
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#pricing" className="hover:text-foreground transition-colors">
+            <Link href="/#pricing" className="hover:text-foreground transition-colors">
               Pricing
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#contact" className="hover:text-foreground transition-colors">
+            <Link href="/#contact" className="hover:text-foreground transition-colors">
               Contact
-            </a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/fotografias" className="hover:text-foreground transition-colors">
+              Fotografias
+            </Link>
           </li>
         </ul>
       </nav>
