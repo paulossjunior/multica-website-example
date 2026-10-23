@@ -1,8 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Nav } from "@/components/sections/Nav"
 import { Footer } from "@/components/sections/Footer"
+import { PHOTOGRAPHER_EMAIL } from "@/lib/site"
 
 type FormState = "idle" | "submitting" | "success" | "error"
 
@@ -19,8 +20,12 @@ const TIPOS_ENSAIO = [
   "Outro",
 ]
 
+type FormErrors = Partial<Record<"nome" | "email" | "tipoEnsaio", string>>
+
 export default function FotografiasPage() {
   const [status, setStatus] = useState<FormState>("idle")
+  const [errors, setErrors] = useState<FormErrors>({})
+  const [minDate, setMinDate] = useState("")
   const [form, setForm] = useState({
     nome: "",
     email: "",
@@ -30,20 +35,66 @@ export default function FotografiasPage() {
     descricao: "",
   })
 
+  useEffect(() => {
+    setMinDate(new Date().toISOString().split("T")[0])
+  }, [])
+
   function handleChange(
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >,
   ) {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+    const { name, value } = e.target
+    setForm((prev) => ({ ...prev, [name]: value }))
+    if (errors[name as keyof FormErrors]) {
+      setErrors((prev) => ({ ...prev, [name]: undefined }))
+    }
   }
 
-  async function handleSubmit(e: React.FormEvent) {
+  function validate(): FormErrors {
+    const errs: FormErrors = {}
+    if (!form.nome.trim()) errs.nome = "Nome obrigatório."
+    if (!form.email.trim()) {
+      errs.email = "E-mail obrigatório."
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      errs.email = "E-mail inválido."
+    }
+    if (!form.tipoEnsaio) errs.tipoEnsaio = "Selecione um tipo de ensaio."
+    return errs
+  }
+
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+
+    const errs = validate()
+    if (Object.keys(errs).length > 0) {
+      setErrors(errs)
+      return
+    }
+
     setStatus("submitting")
-    // Static export: no API route available. Simulate success.
-    await new Promise((r) => setTimeout(r, 800))
-    setStatus("success")
+
+    try {
+      const subject = encodeURIComponent(
+        `Demanda de fotografia – ${form.tipoEnsaio}`,
+      )
+      const body = encodeURIComponent(
+        [
+          `Nome: ${form.nome}`,
+          `E-mail: ${form.email}`,
+          `Tipo de ensaio: ${form.tipoEnsaio}`,
+          `Data desejada: ${form.dataDesejada || "Não informada"}`,
+          `Local: ${form.local || "Não informado"}`,
+          "",
+          "Descrição:",
+          form.descricao || "—",
+        ].join("\n"),
+      )
+      window.location.href = `mailto:${PHOTOGRAPHER_EMAIL}?subject=${subject}&body=${body}`
+      setStatus("success")
+    } catch {
+      setStatus("error")
+    }
   }
 
   return (
@@ -67,47 +118,53 @@ export default function FotografiasPage() {
               Demanda recebida.
             </p>
             <p className="text-muted-foreground font-light text-sm leading-relaxed">
-              Em breve entrarei em contato pelo e-mail informado.
+              Seu cliente de e-mail foi aberto com os dados preenchidos. Envie a
+              mensagem para concluir.
             </p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-6" noValidate>
-            <Field label="Nome completo" required>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <Field label="Nome completo" required error={errors.nome}>
               <input
                 type="text"
                 name="nome"
                 id="nome"
-                required
                 value={form.nome}
                 onChange={handleChange}
                 autoComplete="name"
                 className={inputClass}
                 placeholder="Seu nome"
+                aria-invalid={!!errors.nome}
+                aria-describedby={errors.nome ? "nome-error" : undefined}
               />
             </Field>
 
-            <Field label="E-mail" required>
+            <Field label="E-mail" required error={errors.email}>
               <input
                 type="email"
                 name="email"
                 id="email"
-                required
                 value={form.email}
                 onChange={handleChange}
                 autoComplete="email"
                 className={inputClass}
                 placeholder="seu@email.com"
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? "email-error" : undefined}
               />
             </Field>
 
-            <Field label="Tipo de ensaio" required>
+            <Field label="Tipo de ensaio" required error={errors.tipoEnsaio}>
               <select
                 name="tipoEnsaio"
                 id="tipoEnsaio"
-                required
                 value={form.tipoEnsaio}
                 onChange={handleChange}
                 className={inputClass}
+                aria-invalid={!!errors.tipoEnsaio}
+                aria-describedby={
+                  errors.tipoEnsaio ? "tipoEnsaio-error" : undefined
+                }
               >
                 <option value="">Selecione…</option>
                 {TIPOS_ENSAIO.map((t) => (
@@ -126,7 +183,7 @@ export default function FotografiasPage() {
                 value={form.dataDesejada}
                 onChange={handleChange}
                 className={inputClass}
-                min={new Date().toISOString().split("T")[0]}
+                min={minDate}
               />
             </Field>
 
@@ -159,12 +216,20 @@ export default function FotografiasPage() {
               disabled={status === "submitting"}
               className="mt-4 w-full border border-foreground py-3 text-xs tracking-widest uppercase hover:bg-foreground hover:text-background transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {status === "submitting" ? "Enviando…" : "Enviar demanda"}
+              {status === "submitting" ? "Abrindo e-mail…" : "Enviar demanda"}
             </button>
 
             {status === "error" && (
-              <p className="text-sm text-red-500 text-center">
-                Erro ao enviar. Tente novamente.
+              <p role="alert" className="text-sm text-red-500 text-center">
+                Não foi possível abrir o cliente de e-mail. Envie diretamente
+                para{" "}
+                <a
+                  href={`mailto:${PHOTOGRAPHER_EMAIL}`}
+                  className="underline underline-offset-2"
+                >
+                  {PHOTOGRAPHER_EMAIL}
+                </a>
+                .
               </p>
             )}
           </form>
@@ -176,15 +241,17 @@ export default function FotografiasPage() {
 }
 
 const inputClass =
-  "w-full bg-transparent border border-border rounded-sm px-4 py-2.5 text-sm font-light text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
+  "w-full bg-transparent border border-border rounded-sm px-4 py-2.5 text-sm font-light text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors aria-invalid:border-red-500"
 
 function Field({
   label,
   required,
+  error,
   children,
 }: {
   label: string
   required?: boolean
+  error?: string
   children: React.ReactNode
 }) {
   return (
@@ -194,6 +261,11 @@ function Field({
         {required && <span className="ml-1 text-foreground">*</span>}
       </label>
       {children}
+      {error && (
+        <p className="text-xs text-red-500" role="alert">
+          {error}
+        </p>
+      )}
     </div>
   )
 }
