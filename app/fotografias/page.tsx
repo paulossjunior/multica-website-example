@@ -124,7 +124,7 @@ export default function FotografiasPage() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6">
-            <Field label="Nome completo" required error={errors.nome}>
+            <Field label="Nome completo" fieldId="nome" required error={errors.nome}>
               <input
                 type="text"
                 name="nome"
@@ -139,7 +139,7 @@ export default function FotografiasPage() {
               />
             </Field>
 
-            <Field label="E-mail" required error={errors.email}>
+            <Field label="E-mail" fieldId="email" required error={errors.email}>
               <input
                 type="email"
                 name="email"
@@ -154,7 +154,7 @@ export default function FotografiasPage() {
               />
             </Field>
 
-            <Field label="Tipo de ensaio" required error={errors.tipoEnsaio}>
+            <Field label="Tipo de ensaio" fieldId="tipoEnsaio" required error={errors.tipoEnsaio}>
               <select
                 name="tipoEnsaio"
                 id="tipoEnsaio"
@@ -245,24 +245,30 @@ const inputClass =
 
 function Field({
   label,
+  fieldId,
   required,
   error,
   children,
 }: {
   label: string
+  fieldId?: string
   required?: boolean
   error?: string
   children: React.ReactNode
 }) {
+  const errorId = fieldId && error ? `${fieldId}-error` : undefined
   return (
     <div className="space-y-1.5">
-      <label className="block text-xs tracking-widest uppercase text-muted-foreground">
+      <label
+        htmlFor={fieldId}
+        className="block text-xs tracking-widest uppercase text-muted-foreground"
+      >
         {label}
         {required && <span className="ml-1 text-foreground">*</span>}
       </label>
       {children}
       {error && (
-        <p className="text-xs text-red-500" role="alert">
+        <p id={errorId} className="text-xs text-red-500" role="alert">
           {error}
         </p>
       )}
