@@ -1,6 +1,6 @@
 # Feature — página `/fotografias`
 
-Página de captação de demandas de fotografia. Entregue no PR #8 (`a2ce64f`), resolvendo o issue LEDS-9.
+Página de captação de demandas de fotografia. Entregue no PR #8 — HEAD da branch em `a2ce64f`, merge commit em `main` em `ac3084e`. Resolve o issue LEDS-9.
 
 ## 1. Visão geral
 
@@ -29,12 +29,13 @@ monta subject + body (encodeURIComponent)
       │
       ▼
 window.location.href = "mailto:<PHOTOGRAPHER_EMAIL>?subject=...&body=..."
+setStatus("success")   ◄── (mesmo tick da atribuição; ver §8.1)
       │
       ▼
 SO abre cliente de e-mail padrão
       │
       ▼
-setStatus("success") ──► tela "Demanda recebida"
+tela "Demanda recebida" (render do estado success)
       │
       ▼
 Usuário revisa e envia o e-mail manualmente
@@ -213,7 +214,7 @@ Para build estático: `pnpm build` → inspecionar `./out/fotografias/index.html
 ## 10. Referências
 
 - Issue: LEDS-9 — "Criar página de envio de demandas de fotografia"
-- PR: [#8](https://github.com/paulossjunior/multica-website-example/pull/8) merged em `a2ce64f`
+- PR: [#8](https://github.com/paulossjunior/multica-website-example/pull/8) — HEAD `a2ce64f`, squash-merged em `main` como `ac3084e`
 - Arquivos tocados:
   - [`app/fotografias/page.tsx`](../app/fotografias/page.tsx)
   - [`components/sections/Nav.tsx`](../components/sections/Nav.tsx)
