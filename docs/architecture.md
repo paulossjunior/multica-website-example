@@ -2,8 +2,6 @@
 
 Portfólio pessoal de fotografia construído com **Next.js 16 (App Router)**, exportado como site estático (`output: "export"`) e publicado no **GitHub Pages**. A rota `/fotografias` (entrega do LEDS-9) adiciona um formulário client-side de captação de demandas que entrega a mensagem via `mailto:`.
 
-> Observação: o `README.md` menciona "Astro" em uma linha — está incorreto. O stack real é Next.js 16 + React 19 + Tailwind v4 + shadcn. Vale corrigir em follow-up.
-
 ---
 
 ## 1. Visão geral do stack
@@ -148,7 +146,7 @@ classDiagram
 
   class FormErrors {
     <<type>>
-    Partial Record nome|email|tipoEnsaio, string
+    Partial Record of nome, email, tipoEnsaio keys to string messages
   }
 
   class Field {
@@ -158,6 +156,19 @@ classDiagram
     +required?: boolean
     +error?: string
     +children: ReactNode
+  }
+
+  class InputElement {
+    <<rendered by children>>
+    +id: fieldId
+    +aria-invalid: boolean
+    +aria-describedby: fieldId-error
+  }
+
+  class ErrorParagraph {
+    <<rendered by Field>>
+    +id: fieldId-error
+    +role: alert
   }
 
   class siteConstants {
@@ -172,10 +183,11 @@ classDiagram
   FotografiasPage --> FormErrors : errors
   FotografiasPage --> Field : usa 6x
   FotografiasPage ..> siteConstants : importa PHOTOGRAPHER_EMAIL
-  Field --> "p#id-error" : aria-describedby
+  Field --> ErrorParagraph : renderiza
+  InputElement --> ErrorParagraph : aria-describedby
 ```
 
-Invariante de acessibilidade: `fieldId` passado em `Field` gera `id={fieldId}-error` para o `<p role="alert">`, fechando o `aria-describedby` do input (fix do review).
+Invariante de acessibilidade: `fieldId` passado em `Field` gera `id={fieldId}-error` para o `<p role="alert">`, fechando o `aria-describedby` que sai do `<input>` renderizado como `children` (fix do review).
 
 ---
 
@@ -287,7 +299,6 @@ Config relevantes em `next.config.ts`:
 | 🟡 Média | `Gallery.tsx` tem `gallery` próprio, duplicando `lib/content.ts` | `components/sections/Gallery.tsx:27` |
 | 🟡 Média | `Contact.tsx` tem `hello@example.com` hard-coded (não usa `PHOTOGRAPHER_EMAIL`) | `components/sections/Contact.tsx:13` |
 | 🟡 Média | `<html lang="en">` no layout enquanto `/fotografias` é 100% pt-BR | `app/layout.tsx:38` |
-| 🟢 Baixa | README diz "Astro"; stack real é Next.js | `README.md:3` |
 | 🟢 Baixa (nit) | Estado `"submitting"` nunca é pintado (navegação síncrona pós-`mailto:`) | `app/fotografias/page.tsx:75-94` |
 | 🟢 Baixa (nit) | `catch` em volta de `window.location.href` quase inatingível | `app/fotografias/page.tsx:95-97` |
 | ⚠️ Segurança | Alerta "vulnerabilidade conhecida" no log do Next 16.4.0 — reporter optou por não investigar neste ciclo (opção A) | `package.json:17` |
